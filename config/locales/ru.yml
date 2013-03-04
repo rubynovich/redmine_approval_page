@@ -11,5 +11,5 @@ ru:
   message_add_approver: "В согласующие добавлен %{name}"
   message_issue_approved: "Задача согласована!"
   message_approver_approved:
-    true: "Cогласен!"
-    false: "Не согласен!"
+    true: "Cогласовано!"
+    false: "Согласование отозвано!"
