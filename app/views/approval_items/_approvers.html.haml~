@@ -1,0 +1,20 @@
+- if User.current.allowed_to?(:add_issue_watchers, @project)
+  #approval_page
+    :css
+      #approval_page ul {margin: 0;  padding: 0;}
+      #approval_page li {list-style-type:none; margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+      #approval_page a.delete {opacity: 0.4;}
+      #approval_page a.delete:hover {opacity: 1;}
+    .contextual
+      = link_to_remote l(:button_add), :url => {:controller => :approval_items, :action => :new, :issue_id => @issue.id}, :method => :get, :before => "if ($('ajax-modal').hasClassName('new-approver')) {showModal('ajax-modal'); return false;}"
+
+    %h3
+      = l(:label_issue_watchers)
+      = "(#{@issue.approvers.size})"
+
+    %ul.approval_items
+      - @issue.approval_items.each do |item|
+        - if  User.current.allowed_to?(:manage_approval_items, @project)
+          .contextual
+            = link_to_remote(image_tag('delete.png'), :url => {:controller => :approval_items, :action => :destroy, :id => item.id, :issue_id => @issue.id}, :method => :delete, :confirm => l(:text_are_you_sure), :html => {:class  => "delete", :title => l(:button_delete) })
+        = render :partial => 'issues/approval_item', :locals => {:approval_item => item}

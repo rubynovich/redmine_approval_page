@@ -1,0 +1,11 @@
+function approve_item(elem,url,id){
+    $.ajax({url: url,
+        dataType: 'script',
+        data: 'approval_item_' + id})
+    var checkbox = $('#approval_item_checkbox_'+id)
+    if (checkbox.is(':checked'))
+        checkbox.removeAttr('checked')
+    else
+        checkbox.attr('checked', true)
+
+}

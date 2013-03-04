@@ -1,0 +1,24 @@
+- if @issue && (User.current.allowed_to?(:view_approval_items, @project) || @issue.approvers.include?(User.current) || User.current.admin?)
+
+  #approval_page
+    :css
+      #approval_page p {margin: 0;  padding: 0;}
+      #approval_page p {list-style-type:none; margin: 0px 2px 0px 0px; padding: 0px 0px 0px 0px;}
+      #approval_page a.delete {opacity: 0.4;}
+      #approval_page a.delete:hover {opacity: 1;}
+      #approval_page img.gravatar {vertical-align: middle; margin: 0 4px 2px 0;}
+
+    .contextual
+      - if User.current.allowed_to?(:manage_approval_items, @project)
+        = link_to_remote l(:button_add), :url => {:controller => :approval_items, :action => :new, :issue_id => @issue.id}, :method => :get, :after => "if ($('ajax-modal').hasClassName('new-approver')) {showModal('ajax-modal'); return false;}"
+
+    %h3
+      = l(:label_approver_plural)
+      = "(#{@issue.approvers.size})"
+
+    #approval_items
+      - @issue.approval_items.each do |item|
+        = render :partial => 'issues/approval_item', :locals => {:approval_item => item}
+
+  - content_for :header_tags do
+    = javascript_include_tag 'approval_page', :plugin => 'redmine_approval_page'

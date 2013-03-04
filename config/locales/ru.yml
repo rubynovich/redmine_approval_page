@@ -1,0 +1,15 @@
+# Russian strings go here for Rails i18n
+ru:
+  project_module_approval_page: "Лист согласования"
+  label_approval_page: "Лист согласования"
+  label_approver_plural: "Согласующие"
+  label_new_approver_plural: "Добавление согласующих"
+  label_finish_issue_status: "Статус окончательного согласования"
+  permission_view_approval_items: "Просмотр листа согласования"
+  permission_manage_approval_items: "Управление листом согласования"
+  message_remove_approver: "Из согласующих удален %{name}"
+  message_add_approver: "В согласующие добавлен %{name}"
+  message_issue_approved: "Задача согласована!"
+  message_approver_approved:
+    true: "Cогласен!"
+    false: "Не согласен!"

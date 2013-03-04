@@ -1,0 +1,15 @@
+# English strings go here for Rails i18n
+en:
+  project_module_approval_page: "Approval page"
+  label_approval_page: "Approval page"
+  label_approver_plural: "Approvers"
+  label_new_approver_plural: "Add new approvers"
+  label_finish_issue_status: "Finish issue status"
+  permission_view_approval_items: "View approval page"
+  permission_manage_approval_items: "Manage approval page"
+  message_remove_approver: "%{name} deleted from approvers"
+  message_add_approver: "%{name} added to approvers"
+  message_issue_approved: "Issue approved!"
+  message_approver_approved:
+    true: "Approve!"
+    false: "Don't approve!"
