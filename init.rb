@@ -14,11 +14,11 @@ Redmine::Plugin.register :redmine_approval_page do
     permission :manage_approval_items, {:approval_items => [:new, :create, :edit, :update, :destroy]}, :require => :loggedin
   end
 
-  menu :project_menu, :approval_page,
-    {:controller => :approval_items, :action => :index},
-    :param => :project_id,
-    :caption => :label_approval_page,
-    :if => Proc.new{ User.current.allowed_to?({:controller => :approval_issues, :action => :index}, nil, {:global => true}) }
+#  menu :project_menu, :approval_page,
+#    {:controller => :approval_items, :action => :index},
+#    :param => :project_id,
+#    :caption => :label_approval_page,
+#    :if => Proc.new{ User.current.allowed_to?({:controller => :approval_issues, :action => :index}, nil, {:global => true}) }
 
   settings :default => {
                          :issue_status => IssueStatus.first(:conditions => {:is_closed => true}).id
