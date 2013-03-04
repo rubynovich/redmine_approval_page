@@ -23,7 +23,6 @@ class ApprovalItem < ActiveRecord::Base
     def message_add_approver
       issue = self.approval_issue
       issue.init_journal(User.current, ::I18n.t(:message_add_approver, :name => self.approver.name))
-      issue.update_attributes :done_ratio => (issue.approval_items.select(&:approved).size*10 / issue.approval_items.size)*10
 #      set_start_status if issue.closed?
       Watcher.create(:watchable => self.approval_issue, :user => self.approver)
     end
@@ -32,7 +31,6 @@ class ApprovalItem < ActiveRecord::Base
       issue = self.approval_issue
       approvers_without_self = issue.approval_items-[self]
       issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
-      issue.update_attributes :done_ratio => ((approvers_without_self.select(&:approved).size)*10 / (approvers_without_self.size))*10
       set_finish_status if !issue.closed? && approvers_without_self.all?(&:approved)
     end
 
@@ -41,7 +39,6 @@ class ApprovalItem < ActiveRecord::Base
       issue = self.approval_issue
       approvers_without_self = issue.approval_items-[self]
       issue.init_journal(User.current, ::I18n.t('message_approver_approved')[approved?])
-      issue.update_attributes :done_ratio => ((approvers_without_self.select(&:approved).size+delta)*10 / issue.approval_items.size)*10
       set_finish_status if !issue.closed? && self.approved? && approvers_without_self.all?(&:approved)
     end
 
