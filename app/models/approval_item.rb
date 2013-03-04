@@ -33,7 +33,7 @@ class ApprovalItem < ActiveRecord::Base
       approvers_without_self = issue.approval_items-[self]
       issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
       issue.save
-      set_finish_status if (issue.status_id != Setting[:plugin_redmine_approval_page][:issue_status]) && approvers_without_self.all?(&:approved)
+      set_finish_status if !issue.closed? && approvers_without_self.all?(&:approved)
     end
 
     def message_approver_approved
@@ -42,7 +42,7 @@ class ApprovalItem < ActiveRecord::Base
       approvers_without_self = issue.approval_items-[self]
       issue.init_journal(User.current, ::I18n.t('message_approver_approved')[approved?])
       issue.save
-      set_finish_status if (issue.status_id != Setting[:plugin_redmine_approval_page][:issue_status]) && self.approved? && approvers_without_self.all?(&:approved)
+      set_finish_status if !issue.closed? && self.approved? && approvers_without_self.all?(&:approved)
     end
 
     def set_finish_status
