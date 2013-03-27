@@ -33,7 +33,8 @@ class ApprovalItem < ActiveRecord::Base
       approvers_without_self = issue.approval_items-[self]
       issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
       issue.save
-      set_finish_status if !issue.closed? && approvers_without_self.all?(&:approved)
+      set_finish_status if !issue.closed? && approvers_without_self.present? && approvers_without_self.all?(&:approved)
+      true
     end
 
     def message_approver_approved

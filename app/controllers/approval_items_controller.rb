@@ -1,21 +1,15 @@
 class ApprovalItemsController < ApplicationController
   unloadable
-  before_filter :find_issue, :only => [:new, :create, :destroy, :update, :autocomplete_for_user]
+  before_filter :find_issue, :only => [:new, :create, :autocomplete_for_user]
+
+  helper :journals
+  helper :issues
+  helper :watchers
 
   def new
     @show_form = "true"
     @users = User.active.all(:limit => 100)
     @users -= @issue.approvers
-
-    respond_to do |format|
-      format.js do
-        render :update do |page|
-          page.replace_html 'ajax-modal', :partial => 'approval_items/new'
-          page << "showModal('ajax-modal', '400px');"
-          page << "$('ajax-modal').addClassName('new-approver');"
-        end
-      end
-    end
   end
 
   def create
@@ -24,30 +18,25 @@ class ApprovalItemsController < ApplicationController
     end
 
     @users = @issue.approvers
+    @journals = get_journals
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js do
-        render :update do |page|
-          page.replace_html 'approval_page', :partial => 'issues/approval_page'
-        end
-      end
+      format.js
     end
   end
 
   def update
     item = ApprovalItem.find(params[:id])
-    flash.now[:notice] = l(:notice_successful_update) if item.update_attributes(params[:approval_item])
+    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(params[:approval_item])
 
+    find_issue
     @users = @issue.approvers
+    @journals = get_journals
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js do
-        render :update do |page|
-          page.replace_html 'approval_page', :partial => 'issues/approval_page'
-        end
-      end
+      format.js
     end
   end
 
@@ -56,15 +45,13 @@ class ApprovalItemsController < ApplicationController
 
     flash.now[:notice] = l(:notice_successful_delete) if item.destroy
 
+    find_issue
     @users = @issue.approvers
+    @journals = get_journals
 
     respond_to do |format|
       format.html { redirect_to :back }
-      format.js do
-        render :update do |page|
-          page.replace_html 'approval_page', :partial => 'issues/approval_page'
-        end
-      end
+      format.js
     end
   end
 
@@ -81,5 +68,13 @@ class ApprovalItemsController < ApplicationController
       @project = @issue.project
     rescue ActiveRecord::RecordNotFound
       render_404
+    end
+
+    def get_journals
+      journals = @issue.journals.includes(:user, :details).reorder("#{Journal.table_name}.id ASC").all
+      journals.each_with_index {|j,i| j.indice = i+1}
+      journals.reject!(&:private_notes?) unless User.current.allowed_to?(:view_private_notes, @issue.project)
+      journals.reverse! if User.current.wants_comments_in_reverse_order?
+      journals
     end
 end

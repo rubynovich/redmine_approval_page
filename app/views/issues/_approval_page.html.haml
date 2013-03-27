@@ -9,8 +9,8 @@
       #approval_page img.gravatar {vertical-align: middle; margin: 0 4px 2px 0;}
 
     .contextual
-      - if !@issue.closed? && User.current.allowed_to?(:manage_approval_items, @project)
-        = link_to_remote l(:button_add), :url => {:controller => :approval_items, :action => :new, :issue_id => @issue.id}, :method => :get, :after => "if ($('ajax-modal').hasClassName('new-approver')) {showModal('ajax-modal'); return false;}"
+      - if !@issue.closed? && (User.current.allowed_to?(:manage_approval_items, @project))
+        = link_to l(:button_add), {:controller => :approval_items, :action => :new, :issue_id => @issue.id}, :remote => true, :method => :get
 
     %h3
       = l(:label_approver_plural)

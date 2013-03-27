@@ -1,0 +1,2 @@
+$('#approval_page').html('#{ escape_javascript(render :partial => 'issues/approval_page') }');
+$('#history').html('#{ escape_javascript(render :partial => 'issues/history', :locals => { :issue => @issue, :journals => @journals }) }');
