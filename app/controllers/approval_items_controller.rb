@@ -13,9 +13,15 @@ class ApprovalItemsController < ApplicationController
   end
 
   def create
+    approvers = []
+
     flash.now[:notice] = l(:notice_successful_create) if User.find(params[:approver][:user_ids]).all? do |user|
-      ApprovalItem.create(:approver => user, :approval_issue => @issue)
+      if approval_item = ApprovalItem.create(:approver => user, :approval_issue => @issue)
+        approvers << approval_item.approver.name
+      end
     end
+    @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
+    @issue.save
 
     @users = @issue.approvers
     @journals = get_journals

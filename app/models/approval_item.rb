@@ -21,9 +21,6 @@ class ApprovalItem < ActiveRecord::Base
     end
 
     def message_add_approver
-      issue = self.approval_issue
-      issue.init_journal(User.current, ::I18n.t(:message_add_approver, :name => self.approver.name))
-      issue.save
 #      set_start_status if issue.closed?
       Watcher.create(:watchable => self.approval_issue, :user => self.approver)
     end
