@@ -1,5 +1,6 @@
 # English strings go here for Rails i18n
 en:
+  error_you_cant_close_issue_without_approval: "You can't close the issue without approval"
   project_module_approval_page: "Approval page"
   label_approval_page: "Approval page"
   label_approver_plural: "Approvers"
