@@ -11,7 +11,7 @@ module ApprovalPagePlugin
         has_many :approval_items
         has_many :approvers, :through => :approval_items, :foreign_key => :user_id, :class_name => "User", :uniq => true
 
-        validate :all_approved, :if => "!Issue.find(self.id).closed? && self.closed?"
+        validate :all_approved, :if => "self.id && !Issue.find(self.id).closed? && self.closed?"
       end
     end
 
