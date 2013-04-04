@@ -1,3 +1,7 @@
-$('#approval_page').html('#{ escape_javascript(render :partial => 'issues/approval_page') }');
-$('#history').html('#{ escape_javascript(render :partial => 'issues/history', :locals => { :issue => @issue, :journals => @journals }) }');
-$('#watchers').html('#{ escape_javascript(render :partial => 'watchers/watchers', :locals => { :watched => @issue}) }');
+- if @journals.size > 1
+  alert('#{ escape_javascript(@journals.inspect)}')
+  $('#approval_page').html('#{ escape_javascript(render :partial => 'issues/approval_page') }');
+  $('#history').html('#{ escape_javascript(render :partial => 'issues/history', :locals => { :issue => @issue, :journals => @journals }) }');
+  $('#watchers').html('#{ escape_javascript(render :partial => 'watchers/watchers', :locals => { :watched => @issue}) }');
+- else
+  location.reload();

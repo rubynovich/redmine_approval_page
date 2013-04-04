@@ -1,2 +1,5 @@
-$('#approval_page').html('#{ escape_javascript(render :partial => 'issues/approval_page') }');
-$('#history').html('#{ escape_javascript(render :partial => 'issues/history', :locals => { :issue => @issue, :journals => @journals }) }');
+- if @issue.closed?
+  location.reload();
+- else
+  $('#approval_page').html('#{ escape_javascript(render :partial => 'issues/approval_page') }');
+  $('#history').html('#{ escape_javascript(render :partial => 'issues/history', :locals => { :issue => @issue, :journals => @journals }) }');

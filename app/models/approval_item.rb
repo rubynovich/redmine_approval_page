@@ -12,6 +12,8 @@ class ApprovalItem < ActiveRecord::Base
   before_validation :add_approved_on, :if => "approved? && !ApprovalItem.find(id).approved?"
 #  after_save :set_finish_status, :if => "!approval_issue.closed? && approval_issue.approval_items.all?(&:approved)"
   before_update :message_approver_approved, :if => "approved? ^ ApprovalItem.find(id).approved?"
+  after_update :set_finish_status
+  after_destroy :set_finish_status
   after_create :message_add_approver
   before_destroy :message_remove_approver
 
@@ -30,8 +32,6 @@ class ApprovalItem < ActiveRecord::Base
       approvers_without_self = issue.approval_items-[self]
       issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
       issue.save
-      set_finish_status if !issue.closed? && approvers_without_self.present? && approvers_without_self.all?(&:approved)
-      true
     end
 
     def message_approver_approved
@@ -40,11 +40,16 @@ class ApprovalItem < ActiveRecord::Base
       approvers_without_self = issue.approval_items-[self]
       issue.init_journal(User.current, ::I18n.t('message_approver_approved')[approved?])
       issue.save
-      set_finish_status if !issue.closed? && self.approved? && approvers_without_self.all?(&:approved)
     end
 
+#    def set_finish_status_after_update
+#      set_finish_status if !self.approval_issue.closed? && self.approval_issue.approval_items.all?(&:approved)
+#    end
+
     def set_finish_status
-      self.approval_issue.init_journal(User.current, ::I18n.t(:message_issue_approved))
-      self.approval_issue.update_attributes(:status_id => Setting[:plugin_redmine_approval_page][:issue_status])
+      if !self.approval_issue.closed? && self.approval_issue.approval_items.all?(&:approved)
+        self.approval_issue.init_journal(User.current, ::I18n.t(:message_issue_approved))
+        self.approval_issue.update_attributes(:status_id => Setting[:plugin_redmine_approval_page][:issue_status])
+      end
     end
 end

@@ -20,7 +20,7 @@ module ApprovalPagePlugin
 
     module InstanceMethods
       def all_approved
-        return if approval_items.all?(&:approved?)
+        return if self.approval_items.all?(&:approved)
         errors.add :base, I18n.t(:error_you_cant_close_issue_without_approval)
       end
     end
