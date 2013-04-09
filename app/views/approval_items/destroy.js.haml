@@ -1,4 +1,4 @@
-- if @issue.closed?
+- if @issue.approval_items.all?(&:approved)
   location.reload();
 - else
   $('#approval_page').html('#{ escape_javascript(render :partial => 'issues/approval_page') }');

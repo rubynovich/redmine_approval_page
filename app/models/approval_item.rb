@@ -10,7 +10,6 @@ class ApprovalItem < ActiveRecord::Base
   belongs_to :approval_issue, :foreign_key => :issue_id, :class_name => "Issue"
 
   before_validation :add_approved_on, :if => "approved? && !ApprovalItem.find(id).approved?"
-#  after_save :set_finish_status, :if => "!approval_issue.closed? && approval_issue.approval_items.all?(&:approved)"
   before_update :message_approver_approved, :if => "approved? ^ ApprovalItem.find(id).approved?"
   after_update :set_finish_status
   after_destroy :set_finish_status
@@ -42,9 +41,6 @@ class ApprovalItem < ActiveRecord::Base
       issue.save
     end
 
-#    def set_finish_status_after_update
-#      set_finish_status if !self.approval_issue.closed? && self.approval_issue.approval_items.all?(&:approved)
-#    end
 
     def set_finish_status
       if !self.approval_issue.closed? && self.approval_issue.approval_items.all?(&:approved)
