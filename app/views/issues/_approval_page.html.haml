@@ -1,4 +1,4 @@
-- if @issue && (User.current.allowed_to?(:view_approval_items, @project) || @issue.approvers.include?(User.current) || User.current.admin?)
+- if @issue && (User.current.allowed_to?(:view_approval_items, @project) || @issue.approvers.include?(User.current))
 
   #approval_page
     :css
