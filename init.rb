@@ -2,11 +2,11 @@ require 'redmine'
 require 'redmine_approval_page/hooks'
 
 Redmine::Plugin.register :redmine_approval_page do
-  name 'Redmine Approval Page plugin'
+  name 'Approval Page'
   author 'Roman Shipiev'
-  description 'This is a plugin for Redmine'
+  description 'Approval Page for Redmine'
   version '0.0.1'
-  url 'https://github.com/rubynovich/redmine_approval_page'
+  url 'https://bitbucket.org/rubynovich/redmine_approval_page'
   author_url 'http://roman.shipiev.me'
 
   project_module :approval_page do
