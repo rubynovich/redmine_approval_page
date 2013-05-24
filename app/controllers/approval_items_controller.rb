@@ -15,7 +15,7 @@ class ApprovalItemsController < ApplicationController
   def create
     approvers = []
 
-    flash.now[:notice] = l(:notice_successful_create) if User.find(params[:approver][:user_ids]).all? do |user|
+    flash.now[:notice] = l(:notice_successful_create) if params[:approver] && User.find(params[:approver][:user_ids]).all? do |user|
       if approval_item = ApprovalItem.create(:approver => user, :approval_issue => @issue)
         approvers << approval_item.approver.name
       end
