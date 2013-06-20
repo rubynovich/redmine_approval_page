@@ -1,6 +1,6 @@
 class ApprovalItemsController < ApplicationController
   unloadable
-  before_filter :find_issue, :only => [:new, :create, :autocomplete_for_user]
+  before_filter :find_issue, :only => [:new, :create, :autocomplete_for_user, :card]
 
   helper :journals
   helper :issues
@@ -66,6 +66,10 @@ class ApprovalItemsController < ApplicationController
     @users -= @issue.approvers
 
     render :layout => false
+  end
+
+  def card
+    @collection = @issue.approval_items.includes(:approver).order("users.lastname, users.firstname")
   end
 
   private

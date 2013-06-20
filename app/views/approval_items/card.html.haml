@@ -1,0 +1,26 @@
+%h2
+  = link_to_issue @issue, :project => true
+  &#187;
+  = l(:label_card_approval)
+
+- html_title l(:label_card_approval)
+
+- if @collection.any?
+  .autoscroll
+    %table.list
+      %thead
+        %tr
+          %th= l(:field_name)
+          %th= l(:field_approved)
+          %th= l(:field_approved_on)
+          %th= l(:field_created_on)
+      %tbody
+        - @collection.each do |item|
+          %tr{:class=>cycle("odd", "even")}
+            %td{:align=>"center"}= h(item.approver.name)
+            %td{:align=>"center"}= checked_image item.approved?
+            %td{:align=>"center"}= format_date(item.approved_on)
+            %td{:align=>"center"}= format_date(item.created_on)
+- else
+  %p.nodata
+    = l(:label_no_data)
