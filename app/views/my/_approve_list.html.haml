@@ -1,0 +1,7 @@
+- approval_issues = ApprovalItem.where(user_id: User.current.id, approved: nil).map{|i| i.approval_issue}
+
+%h3
+  = "Задачи на согласование"
+  = " (#{approval_issues.count})"
+
+= render :partial => 'issues/list_simple', :locals => { :issues => approval_issues }
