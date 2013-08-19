@@ -41,14 +41,11 @@ module ApprovalPagePlugin
         issues_count = @issues.count
 
         @conjugation = case issues_count
-                         when 1 
-                           1
-                         when 2..4 
-                           2
-                         else 
-                           5
+                         when 1    then 1
+                         when 2..4 then 2
+                         else           5
                        end
-        
+
         @subject = l(:"#{@conjugation}", scope: "mail_subject_approval_items", :count => issues_count)
         @body = l(:"#{@conjugation}", scope: "mail_body_approval_items", :count => issues_count)
 
