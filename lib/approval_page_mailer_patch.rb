@@ -21,11 +21,12 @@ module ApprovalPagePlugin
 
       def approve_requests
 
-        approval_items = ApprovalItem.where(approved: nil).group_by{|i| i.user_id}
+        approval_items_per_user = ApprovalItem.where(approved: nil).group_by(&:user_id)
 
-        for user_id in approval_items.keys
-          issues = approval_items[user_id].map{|i| i.approval_issue}
-          mail_approve_request(User.find(user_id), issues).deliver
+        for user_id, approval_items in approval_items_per_user
+          issues = approval_items.map(&:approval_issue).compact
+          user = User.find(user_id)
+          mail_approve_request(user, issues).deliver
         end
 
       end
@@ -49,8 +50,7 @@ module ApprovalPagePlugin
         @subject = l(:"#{@conjugation}", scope: "mail_subject_approval_items", :count => issues_count)
         @body = l(:"#{@conjugation}", scope: "mail_body_approval_items", :count => issues_count)
 
-        @firstname = user.firstname
-        @lastname = user.lastname
+        @username = user.name
 
         mail(to: user.mail, subject: @subject)
 

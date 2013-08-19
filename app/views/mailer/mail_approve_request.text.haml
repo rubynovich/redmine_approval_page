@@ -1,4 +1,4 @@
-= l(:mail_body_greeting, firstname: @firstname, lastname: @lastname) + "#{@body}:" + "\n\n"
+= l(:mail_body_greeting) + ' ' + @username + ', ' + "#{@body}:" + "\n\n"
 
 - for issue in @issues
   = "* #{l(:label_issue)} ##{issue.id} #{issue.subject} (#{issue.project}) " + url_for(issue_path(issue, only_path: false)) + "\n"

@@ -18,7 +18,7 @@ en:
     true: "Approve!"
     false: "Don't approve!"
 
-  mail_body_greeting: "Dear %{firstname} %{lastname}, "
+  mail_body_greeting: "Dear"
 
   mail_subject_approval_items:
     "1": "Approve %{count} issue"
