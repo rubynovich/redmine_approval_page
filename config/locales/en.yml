@@ -17,3 +17,15 @@ en:
   message_approver_approved:
     true: "Approve!"
     false: "Don't approve!"
+
+  mail_body_greeting: "Dear %{firstname} %{lastname}, "
+
+  mail_subject_approval_items:
+    "1": "Approve %{count} issue"
+    "2": "Approve %{count} issues"
+    "5": "Approve %{count} issues"
+
+  mail_body_approval_items:
+    "1": "%{count} issue should be approved"
+    "2": "%{count} issues should be approved"
+    "5": "%{count} issues should be approved"

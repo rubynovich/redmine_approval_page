@@ -26,21 +26,20 @@ Redmine::Plugin.register :redmine_approval_page do
            :partial => 'settings/settings'
 end
 
-if Rails::VERSION::MAJOR < 3
-  require 'dispatcher'
-  object_to_prepare = Dispatcher
-else
-  object_to_prepare = Rails.configuration
-end
+Rails.configuration.to_prepare do
 
-object_to_prepare.to_prepare do
-  [:issue, :user].each do |cl|
+  [
+   :issue, 
+   :user,
+   :mailer
+  ].each do |cl|
     require "approval_page_#{cl}_patch"
   end
 
   [
     [Issue, ApprovalPagePlugin::IssuePatch],
-    [User,  ApprovalPagePlugin::UserPatch]
+    [User,  ApprovalPagePlugin::UserPatch],
+    [Mailer, ApprovalPagePlugin::MailerPatch]
   ].each do |cl, patch|
     cl.send(:include, patch) unless cl.included_modules.include? patch
   end

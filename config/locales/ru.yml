@@ -17,3 +17,15 @@ ru:
   message_approver_approved:
     true: "Cогласовано!"
     false: "Согласование отозвано!"
+
+  mail_body_greeting: "Уважаемый %{firstname} %{lastname}, "
+
+  mail_subject_approval_items:
+    "1": "Согласовать %{count} задачу"
+    "2": "Согласовать %{count} задачи"
+    "5": "Согласовать %{count} задач"
+
+  mail_body_approval_items:
+    "1": "%{count} задача должна быть согласована"
+    "2": "%{count} задачи должны быть согласованы"
+    "5": "%{count} задач должны быть согласованы"

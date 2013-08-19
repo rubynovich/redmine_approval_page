@@ -1,0 +1,8 @@
+= l(:mail_body_greeting, firstname: @firstname, lastname: @lastname) + "#{@body}:"
+
+%ul
+- for issue in @issues
+  %li
+    = "#{l(:label_issue)}"
+    = link_to "##{issue.id}", issue_path(issue, only_path: false)
+    = " #{issue.subject}"
