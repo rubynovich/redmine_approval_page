@@ -18,6 +18,8 @@ ru:
     true: "Cогласовано!"
     false: "Согласование отозвано!"
 
+  approve_list: Задачи на согласование
+
   mail_body_greeting: "Уважаемый %{firstname} %{lastname}, "
 
   mail_subject_approval_items:
