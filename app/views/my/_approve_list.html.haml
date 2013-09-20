@@ -4,4 +4,5 @@
   = "Задачи на согласование"
   = " (#{approval_issues.count})"
 
+
 = render :partial => 'issues/list_simple', :locals => { :issues => approval_issues, :allows => [:author, :assigned_to] }
