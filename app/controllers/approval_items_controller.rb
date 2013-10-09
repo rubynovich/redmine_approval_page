@@ -8,8 +8,8 @@ class ApprovalItemsController < ApplicationController
 
   def new
     @show_form = "true"
-    @users = User.active.all(:limit => 100)
-    @users -= @issue.approvers
+    @users = User.active.all(limit: 100)
+    @users -= @issue.approvers.sort_by(&:name)
   end
 
   def create
@@ -23,7 +23,7 @@ class ApprovalItemsController < ApplicationController
     @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
     @issue.save
 
-    @users = @issue.approvers
+    @users = @issue.approvers.sort_by(&:name)
     @journals = get_journals
 
     respond_to do |format|
@@ -37,7 +37,7 @@ class ApprovalItemsController < ApplicationController
     flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(params[:approval_item])
 
     find_issue
-    @users = @issue.approvers
+    @users = @issue.approvers.sort_by(&:name)
     @journals = get_journals
 
     respond_to do |format|
@@ -52,7 +52,7 @@ class ApprovalItemsController < ApplicationController
     flash.now[:notice] = l(:notice_successful_delete) if item.destroy
 
     find_issue
-    @users = @issue.approvers
+    @users = @issue.approvers.sort_by(&:name)
     @journals = get_journals
 
     respond_to do |format|
@@ -62,8 +62,8 @@ class ApprovalItemsController < ApplicationController
   end
 
   def autocomplete_for_user
-    @users = User.active.like(params[:q]).all(:limit => 100)
-    @users -= @issue.approvers
+    @users = User.active.like(params[:q]).all(limit: 100)
+    @users -= @issue.approvers.sort_by(&:name)
 
     render :layout => false
   end
