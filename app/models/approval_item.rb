@@ -14,6 +14,7 @@ class ApprovalItem < ActiveRecord::Base
   after_update :set_finish_status
   after_destroy :set_finish_status
   after_create :message_add_approver
+  after_create :set_default_status, if: -> { (self.approval_issue.status == IssueStatus.find(Setting[:plugin_redmine_approval_page][:issue_status])) }
   before_destroy :message_remove_approver
 
   private
@@ -52,5 +53,9 @@ class ApprovalItem < ActiveRecord::Base
           Watcher.where(:watchable_type => "Issue", :watchable_id => self.approval_issue, :user_id => item.approver).delete_all
         end
       end
+    end
+
+    def set_default_status
+      self.approval_issue.update_attributes(status: IssueStatus.default)
     end
 end
