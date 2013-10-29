@@ -23,5 +23,5 @@
     - if @issue.approval_items.any?
       %h4= link_to l(:label_card_approval), :controller => :approval_items, :action => :card, :issue_id => @issue
 
-  -# - content_for :header_tags do
-  -#   = javascript_include_tag 'approval_page', :plugin => 'redmine_approval_page'
+  - content_for :header_tags do
+    = javascript_include_tag 'approval_page', :plugin => 'redmine_approval_page'
