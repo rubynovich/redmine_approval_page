@@ -20,7 +20,7 @@ ru:
 
   approve_list: Задачи на согласование
 
-  mail_body_greeting: "Уважаемый"
+  mail_body_greeting_approvers: "Уважаемый"
 
   mail_subject_approval_items:
     "1": "Согласовать %{count} задачу"
