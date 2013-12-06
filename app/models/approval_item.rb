@@ -31,8 +31,10 @@ class ApprovalItem < ActiveRecord::Base
       issue = self.approval_issue
       if issue
         approvers_without_self = issue.approval_items-[self]
-        issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
-        issue.save
+        Mailer.with_deliveries(false) do  
+          journal = issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
+          journal.save
+        end
       end
     end
 
@@ -40,8 +42,10 @@ class ApprovalItem < ActiveRecord::Base
       delta = self.approved? ? 1 : -1
       issue = self.approval_issue
       approvers_without_self = issue.approval_items-[self]
-      issue.init_journal(User.current, ::I18n.t('message_approver_approved')[approved?])
-      issue.save
+      Mailer.with_deliveries(false) do
+        journal = issue.init_journal(User.current, ::I18n.t('message_approver_approved')[approved?])
+        journal.save
+      end
     end
 
 
