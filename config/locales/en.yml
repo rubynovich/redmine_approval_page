@@ -30,5 +30,8 @@ en:
     "2": "%{count} issues should be approved"
     "5": "%{count} issues should be approved"
 
+  subject_you_are_approver: You was added to approval list in %{issue}
+  body_you_are_approver: You was added to approval list
+
   subject_you_are_not_approver: You was removed from approval list in %{issue}
   body_you_are_not_approver: You was removed from approval list in 

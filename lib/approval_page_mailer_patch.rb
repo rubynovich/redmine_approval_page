@@ -56,6 +56,12 @@ module ApprovalPagePlugin
 
       end
 
+      def you_are_approver(user, issue)
+        set_language_if_valid user.language
+        @issue = issue
+        mail :to => user.mail, :subject => l(:subject_you_are_approver, issue: "##{issue.id} #{@issue.subject}")
+      end
+
       def you_are_not_approver(user, issue)
         set_language_if_valid user.language
         @issue = issue

@@ -20,10 +20,13 @@ class ApprovalItemsController < ApplicationController
         approvers << approval_item.approver.name
       end
     end
+
     Mailer.with_deliveries(false) do
-      @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
-      @issue.save
+      journal = @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
+      journal.save
     end
+
+    approvers.each do {|a| Mailer.you_are_approver(a, @issue)
 
     @users = @issue.approvers
     @journals = get_journals
