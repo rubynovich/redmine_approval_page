@@ -26,7 +26,7 @@ class ApprovalItemsController < ApplicationController
       journal.save
     end
 
-    approvers.each do {|a| Mailer.you_are_approver(a, @issue) }
+    approvers.each{|approver| Mailer.you_are_approver(approver, @issue).deliver }
 
     @users = @issue.approvers
     @journals = get_journals
