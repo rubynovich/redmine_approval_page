@@ -1,0 +1,5 @@
+%p
+  = l(:body_you_are_not_approver)
+
+  = link_to "##{@issue.id}", issue_path(@issue, only_path: false)
+  = " #{@issue.subject}"
