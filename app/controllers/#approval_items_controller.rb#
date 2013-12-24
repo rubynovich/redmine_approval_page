@@ -17,14 +17,12 @@ class ApprovalItemsController < ApplicationController
 
     flash.now[:notice] = l(:notice_successful_create) if params[:approver] && User.find(params[:approver][:user_ids]).all? do |user|
       if approval_item = ApprovalItem.create(:approver => user, :approval_issue => @issue)
-        Mailer.you_are_approver(approval_item.approver, @issue).deliver
         approvers << approval_item.approver.name
       end
     end
-
     Mailer.with_deliveries(false) do
-      journal = @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
-      journal.save
+      @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
+      @issue.save
     end
 
     @users = @issue.approvers
