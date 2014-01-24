@@ -37,7 +37,7 @@ class ApprovalItem < ActiveRecord::Base
           journal.save
         end
 
-        if User.current != user || !user.pref.no_self_notified
+        if User.current != self.approver || !self.approver.pref.no_self_notified
           Mailer.you_are_not_approver(self.approver, self.approval_issue).deliver
         end
 
