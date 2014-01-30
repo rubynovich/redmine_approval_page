@@ -56,6 +56,25 @@ module ApprovalPagePlugin
 
       end
 
+      def approver_added(user, issue, approvers)
+        set_language_if_valid user.language
+        @user = user
+        @issue = issue
+        @approvers = approvers
+        Rails.logger.error("sending add to #{user.name} #{issue.to_s}".red)
+        mail :to => user.mail, 
+             :subject => l(:subject_approver_added, issue: "##{@issue.id} #{@issue.subject}") + ': ' + approvers.join(', ')
+      end
+
+      def approver_removed(user, issue, approver)
+        set_language_if_valid user.language
+        @user = user
+        @issue = issue
+        @approver = approver
+        Rails.logger.error("sending rm to #{user.name} #{issue.to_s}".red)
+        mail :to => user.mail, :subject => l(:subject_approver_removed, issue: "##{@issue.id} #{@issue.subject}", approver: @approver)
+      end
+
       def you_are_approver(user, issue)
         set_language_if_valid user.language
         @issue = issue

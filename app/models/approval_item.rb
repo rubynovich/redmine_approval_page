@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class ApprovalItem < ActiveRecord::Base
   unloadable
 
@@ -31,14 +32,28 @@ class ApprovalItem < ActiveRecord::Base
     def message_remove_approver
       issue = self.approval_issue
       if issue
+
         approvers_without_self = issue.approval_items-[self]
         Mailer.with_deliveries(false) do  
           journal = issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
           journal.save
         end
 
+        # Согласующий удалил сам себя? Указано ли у него в настройках,
+        # что он хочет получать вотчи о своих собственных действиях? 
         if User.current != self.approver || !self.approver.pref.no_self_notified
           Mailer.you_are_not_approver(self.approver, self.approval_issue).deliver
+        end
+        
+        # Автору и исполнителю согласуемой задачи вотчи о удалении
+        # согласующих приходят всегда.
+        recipients = [issue.author, issue.assigned_to]
+        if recipients.include?(User.current) && User.current.pref.no_self_notified
+          recipients = [issue.author, issue.assigned_to] - [User.current]
+        end
+
+        for recipient in recipients
+          Mailer.approver_removed(recipient, issue, self.approver.name).deliver
         end
 
       end

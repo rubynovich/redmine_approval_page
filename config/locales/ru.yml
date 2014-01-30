@@ -32,8 +32,14 @@ ru:
     "2": "%{count} задачи должны быть согласованы"
     "5": "%{count} задач должны быть согласованы"
 
-  subject_you_are_approver: Вы были добавлены в лист согласования задачи %{issue}
-  body_you_are_approver: Вы были добавлены в лист согласования задачи
+  subject_you_are_approver: "Вы были добавлены в лист согласования задачи %{issue}"
+  body_you_are_approver: "Вы были добавлены в лист согласования задачи"
 
-  subject_you_are_not_approver: Вы были удалены из листа согласования задачи %{issue}
-  body_you_are_not_approver: Вы были удалены из листа согласования задачи
+  subject_you_are_not_approver: "Вы были удалены из листа согласования задачи %{issue}"
+  body_you_are_not_approver: "Вы были удалены из листа согласования задачи"
+
+  subject_approver_added: "%{issue} - добавлены согласующие"
+  body_approver_added: "В лист согласования %{issue} были добавлены пользователи"
+
+  subject_approver_removed: "%{issue} - удален согласующий %{approver}"
+  body_approver_removed: "Из листа согласования задачи %{issue} был удален пользователь %{approver}."

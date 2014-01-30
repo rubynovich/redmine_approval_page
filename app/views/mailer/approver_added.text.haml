@@ -1,0 +1,4 @@
+%p= l(:body_approver_added, issue: @issue)
+%ul
+  - @approvers.each do |a|
+    %li= a

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class ApprovalItemsController < ApplicationController
   unloadable
   before_filter :find_issue, :only => [:new, :create, :autocomplete_for_user, :card]
@@ -26,6 +28,14 @@ class ApprovalItemsController < ApplicationController
       journal = @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
       journal.save
     end
+    
+    # Автору и исполнителю согласуемой задачи вотчи о удалении
+    # согласующих приходят всегда.
+    recipients = [@issue.author, @issue.assigned_to]
+    if recipients.include?(User.current) && User.current.pref.no_self_notified
+        recipients = [@issue.author, @issue.assigned_to] - [User.current]
+    end
+    recipients.each{|r| Mailer.approver_added(r, @issue, approvers).deliver }
 
     @users = @issue.approvers
     @journals = get_journals

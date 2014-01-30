@@ -20,7 +20,7 @@
 = form_tag({:controller => :approval_items, :action => :create, :issue_id => @issue.id}, :method => :post, :remote => true, :id => 'new-item-form') do
   %p
     = label_tag :approver_search, l(:label_user_search)
-    = text_field_tag :approver_search, nil
+    = text_field_tag :approver_search, nil, autocomplete: 'off'
   = javascript_tag "observeSearchfield('approver_search', 'users_for_approvers', '#{ escape_javascript url_for(:controller => :approval_items, :action => :autocomplete_for_user, :issue_id => @issue.id) }')"
 
   #users_for_approvers
