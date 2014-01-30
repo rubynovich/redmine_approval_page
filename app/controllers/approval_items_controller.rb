@@ -31,7 +31,7 @@ class ApprovalItemsController < ApplicationController
     
     # Автору и исполнителю согласуемой задачи вотчи о удалении
     # согласующих приходят всегда.
-    recipients = [@issue.author, @issue.assigned_to]
+    recipients = [@issue.author, @issue.assigned_to].uniq
     if recipients.include?(User.current) && User.current.pref.no_self_notified
         recipients = [@issue.author, @issue.assigned_to] - [User.current]
     end
