@@ -19,7 +19,9 @@ class ApprovalItemsController < ApplicationController
 
     flash.now[:notice] = l(:notice_successful_create) if params[:approver] && User.find(params[:approver][:user_ids]).all? do |user|
       if approval_item = ApprovalItem.create(:approver => user, :approval_issue => @issue)
-        Mailer.you_are_approver(approval_item.approver, @issue).deliver
+        unless approval_item.approver == User.current && User.current.pref.no_self_notified
+          Mailer.you_are_approver(approval_item.approver, @issue).deliver
+        end
         approvers << approval_item.approver.name
       end
     end

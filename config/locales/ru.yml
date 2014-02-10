@@ -38,8 +38,11 @@ ru:
   subject_you_are_not_approver: "Вы были удалены из листа согласования задачи %{issue}"
   body_you_are_not_approver: "Вы были удалены из листа согласования задачи"
 
-  subject_approver_added: "%{issue} - добавлены согласующие"
+  subject_approver_added: "Добавлены согласующие - %{issue}"
   body_approver_added: "В лист согласования %{issue} были добавлены пользователи"
 
-  subject_approver_removed: "%{issue} - удален согласующий %{approver}"
+  subject_approver_removed: "Удален согласующий %{approver} - %{issue}"
   body_approver_removed: "Из листа согласования задачи %{issue} был удален пользователь %{approver}."
+
+  subject_approver_approved: "Получено согласование от - %{approver} - в задаче %{issue}"
+  body_approver_approved: "Пользователь %{approver} согласовал задачу %{issue}."

@@ -63,10 +63,23 @@ class ApprovalItem < ActiveRecord::Base
       delta = self.approved? ? 1 : -1
       issue = self.approval_issue
       approvers_without_self = issue.approval_items-[self]
+
       Mailer.with_deliveries(false) do
         journal = issue.init_journal(User.current, ::I18n.t('message_approver_approved')[approved?])
         journal.save
       end
+
+      # Автору и исполнителю согласуемой задачи вотчи о удалении
+      # согласующих приходят всегда.
+      recipients = [issue.author, issue.assigned_to].uniq
+      if recipients.include?(User.current) && User.current.pref.no_self_notified
+        recipients = [issue.author, issue.assigned_to] - [User.current]
+      end
+      for recipient in recipients
+        Mailer.approver_approved(recipient, issue, self.approver.name).deliver
+      end
+
+
     end
 
 

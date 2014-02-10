@@ -35,3 +35,12 @@ en:
 
   subject_you_are_not_approver: You was removed from approval list in %{issue}
   body_you_are_not_approver: You was removed from approval list in 
+
+  subject_approver_added: "Approvers added - %{issue}"
+  body_approver_added: "Users were added in %{issue} approval list"
+
+  subject_approver_removed: "Approver removed %{approver} - %{issue}"
+  body_approver_removed: " %{approver} were removed from %{issue} approval list."
+
+  subject_approver_approved: "Issue approved by - %{approver} -  %{issue}"
+  body_approver_approved: "User %{approver} approved %{issue}."
