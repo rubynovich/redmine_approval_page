@@ -69,11 +69,11 @@ class ApprovalItem < ActiveRecord::Base
         journal.save
       end
 
-      # Автору и исполнителю согласуемой задачи вотчи о удалении
-      # согласующих приходят всегда.
-      recipients = [issue.author, issue.assigned_to].uniq
+      # Вотчи о согласовании задачи приходят автору, исполнителю и наблюдателям.
+      recipients = [issue.author, issue.assigned_to] | issue.watchers.map(&:user)
+      Rails.logger.error recipients.map{|r| [r.inspect.split(':').first, r.try(:name)] }.inspect.red
       if recipients.include?(User.current) && User.current.pref.no_self_notified
-        recipients = [issue.author, issue.assigned_to] - [User.current]
+        recipients = recipients - [User.current]
       end
       for recipient in recipients
         Mailer.approver_approved(recipient, issue, self.approver.name).deliver
