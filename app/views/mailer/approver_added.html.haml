@@ -1,4 +1,5 @@
-%p= l(:body_approver_added, issue: "##{@issue.id} \"#{@issue.subject}\"")
+%h1= link_to @issue_title, issue_path(@issue, only_path: false)
+%p= l(:body_approver_added)
 %ul
   - @approvers.each do |a|
     %li= a

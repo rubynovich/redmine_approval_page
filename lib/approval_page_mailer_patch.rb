@@ -69,17 +69,19 @@ module ApprovalPagePlugin
         set_language_if_valid user.language
         @user = user
         @issue = issue
+        @issue_title = "##{@issue.id} \"#{@issue.subject}\""
         @approvers = approvers
         mail :to => user.mail, 
-             :subject => l(:subject_approver_added, issue: "##{@issue.id} \"#{@issue.subject}\"") + ': ' + approvers.join(', ')
+             :subject => l(:subject_approver_added, issue: @issue_title) + ': ' + approvers.join(', ')
       end
 
       def approver_removed(user, issue, approver)
         set_language_if_valid user.language
         @user = user
         @issue = issue
+        @issue_title = "##{@issue.id} \"#{@issue.subject}\""
         @approver = approver
-        mail :to => user.mail, :subject => l(:subject_approver_removed, issue: "##{@issue.id} \"#{@issue.subject}\"", approver: @approver)
+        mail :to => user.mail, :subject => l(:subject_approver_removed, issue: @issue_title, approver: @approver)
       end
 
       def you_are_approver(user, issue)
