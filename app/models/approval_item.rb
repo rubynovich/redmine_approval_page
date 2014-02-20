@@ -86,7 +86,7 @@ class ApprovalItem < ActiveRecord::Base
     def set_finish_status
       if !self.approval_issue.closed? && self.approval_issue.approval_items.present? && self.approval_issue.approval_items.all?(&:approved)
         self.approval_issue.init_journal(User.current, ::I18n.t(:message_issue_approved))
-        self.approval_issue.update_attributes(:status_id => Setting[:plugin_redmine_approval_page][:issue_status])
+        self.approval_issue.update_attribute(:status_id => Setting[:plugin_redmine_approval_page][:issue_status])
         self.approval_issue.approval_items.each do |item|
           Watcher.where(:watchable_type => "Issue", :watchable_id => self.approval_issue, :user_id => item.approver).delete_all
         end
