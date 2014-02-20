@@ -1,3 +1,4 @@
-%h1= link_to @issue_title + "test", issue_path(@issue, only_path: false)
+%h1= link_to "test", issue_path(@issue, only_path: false)
+%p= @issue_title
 %p
   = l(:body_approver_approved, approver: @approver)
