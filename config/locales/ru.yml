@@ -45,4 +45,4 @@ ru:
   body_approver_removed: "Из листа согласования был удален пользователь %{approver}."
 
   subject_approver_approved: "Получено согласование от - %{approver} - в задаче %{issue}"
-  body_approver_approved: "Пользователь %{approver} согласовал задачу %{issue}."
+  body_approver_approved: "%{approver} согласовал задачу."
