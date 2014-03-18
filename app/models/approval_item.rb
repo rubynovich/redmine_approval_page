@@ -76,7 +76,7 @@ class ApprovalItem < ActiveRecord::Base
         recipients = recipients - [User.current]
       end
       for recipient in recipients
-        Mailer.approver_approved(recipient, issue, self.approver.name).deliver
+        Mailer.approver_approved(self.approved?, recipient, issue, self.approver.name).deliver
       end
 
 

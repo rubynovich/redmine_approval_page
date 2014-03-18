@@ -56,14 +56,13 @@ module ApprovalPagePlugin
 
       end
 
-      def approver_approved(user, issue, approver)
+      def approver_approved(approved, user, issue, approver)
         set_language_if_valid user.language
         @user = user
         @issue = issue
         @issue_title = "##{@issue.id} \"#{@issue.subject}\""
         @approver = approver
-        mail :to => user.mail, 
-             :subject => l(:subject_approver_approved, approver: @approver, issue: @issue_title)
+        mail :to => user.mail, :subject => I18n.t(approved, scope: 'subject_approver_approved', approver: @approver, issue: @issue_title)
       end
 
       def approver_added(user, issue, approvers)
