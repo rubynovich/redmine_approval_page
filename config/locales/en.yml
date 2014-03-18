@@ -47,5 +47,5 @@ en:
     "false": "Issue approval recalled - %{approver} - %{issue}"
 
   body_approver_approved: 
-    "true": "User %{approver} approved %{issue}."
-    "false": "User %{approver} recalled approval for %{issue}."
+    "true": "User %{approver} approved issue."
+    "false": "User %{approver} recalled approval."
