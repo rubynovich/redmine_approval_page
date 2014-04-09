@@ -28,11 +28,11 @@
             = link_to truncate(issue.subject, :length => 60), issue_path(issue)               
           %td{:class => "status"}
             = h issue.status
-          %td{:class => "assigned_to"}
-            = h issue.assigned_to
-          %td{:class => "start_date"}
+          %td
+            = link_to_user(issue.assigned_to)
+          %td
             = format_date(issue.start_date)
-          %td{:class => "due_date"}
+          %td
             = format_date(issue.due_date)
 - else
   %p{:class => "nodata"}
