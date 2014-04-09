@@ -35,7 +35,7 @@ class ApprovalItem < ActiveRecord::Base
         approvers_without_self = issue.approval_items-[self]
         Mailer.with_deliveries(false) do  
           journal = issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
-          journal.approver = self.approver
+          journal.approver_ids = [self.approver.id].uniq
           journal.save
         end
 
