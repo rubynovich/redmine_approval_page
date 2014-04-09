@@ -24,7 +24,7 @@
             = link_to issue.id, issue_path(issue) 
           %td{:class => "project"}
             = link_to_project(issue.project)
-          %td{:class => "theme"}
+          %td{:class => "subject"}
             = link_to truncate(issue.subject, :length => 60), issue_path(issue)               
           %td{:class => "status"}
             = h issue.status
