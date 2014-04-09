@@ -25,8 +25,7 @@ class ApprovalItem < ActiveRecord::Base
 
     def message_add_approver
 #      set_start_status if issue.closed?
-      Watcher.create(:watchable => self.approval_issue, :user => self.approver)
-
+      Watcher.create(:watchable => self.approval_issue, :user => self.approver, :is_approver => true)
     end
 
     def message_remove_approver
@@ -36,6 +35,7 @@ class ApprovalItem < ActiveRecord::Base
         approvers_without_self = issue.approval_items-[self]
         Mailer.with_deliveries(false) do  
           journal = issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
+          journal.approver = self.approver
           journal.save
         end
 
