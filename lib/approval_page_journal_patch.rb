@@ -3,6 +3,7 @@ module ApprovalPagePlugin
     extend ActiveSupport::Concern
     included do
       attr_accessor :approvers
+      attr_accessor :approver_ids
       attr_accessor :approvals_action #:add, :destroy
     end
   end
