@@ -31,7 +31,7 @@ class ApprovalItemsController < ApplicationController
     Mailer.with_deliveries(false) do
       journal = @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
       journal.approver_ids = approver_ids.uniq
-      journal.approval_action = :add
+      journal.approvals_action = :add
       journal.save
     end
     

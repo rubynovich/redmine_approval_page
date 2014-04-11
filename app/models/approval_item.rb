@@ -36,7 +36,7 @@ class ApprovalItem < ActiveRecord::Base
         Mailer.with_deliveries(false) do  
           journal = issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
           journal.approver_ids = [self.approver.id].uniq
-          journal.approval_action = :destroy
+          journal.approvals_action = :destroy
           journal.save
         end
 
