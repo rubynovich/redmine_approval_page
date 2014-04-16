@@ -1,4 +1,5 @@
-- if issues && issues.any? 
+- issues.compact! if issues && issues.any?
+- if issues && issues.any?
   %table{:class => "list issues"}
     %thead
       %tr
