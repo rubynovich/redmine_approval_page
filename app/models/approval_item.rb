@@ -34,10 +34,11 @@ class ApprovalItem < ActiveRecord::Base
 
         approvers_without_self = issue.approval_items-[self]
         Mailer.with_deliveries(false) do  
-          journal = issue.init_journal(User.current, ::I18n.t(:message_remove_approver, :name => self.approver.name))
+          journal = issue.init_journal(User.current, '')
           journal.approver_ids = [self.approver.id].uniq
           journal.approvals_action = :destroy
-          journal.save
+          journal.save!
+          journal.details.create(property: "watchers", prop_key: "approver", old_value: self.approver.id, value: nil)
         end
 
         # Согласующий удалил сам себя? Указано ли у него в настройках,
@@ -66,8 +67,9 @@ class ApprovalItem < ActiveRecord::Base
       approvers_without_self = issue.approval_items-[self]
 
       Mailer.with_deliveries(false) do
-        journal = issue.init_journal(User.current, ::I18n.t('message_approver_approved')[approved?])
-        journal.save
+        journal = issue.init_journal(User.current, '')
+        journal.save!
+        journal.details.create(property: "watchers", prop_key: "approved", old_value: approved? ? nil : self.approver.id, value: approved? ? self.approver.id : nil)
       end
 
       # Вотчи о согласовании задачи приходят автору, исполнителю и наблюдателям.

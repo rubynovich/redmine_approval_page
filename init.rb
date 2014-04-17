@@ -33,7 +33,8 @@ Rails.configuration.to_prepare do
    :user,
    :mailer,
    :journal,
-   :watcher
+   :watcher,
+   :issues_helper
   ].each do |cl|
     require "approval_page_#{cl}_patch"
   end
@@ -43,8 +44,8 @@ Rails.configuration.to_prepare do
     [User,  ApprovalPagePlugin::UserPatch],
     [Mailer, ApprovalPagePlugin::MailerPatch],
     [Journal, ApprovalPagePlugin::JournalPatch],
-    [Watcher, ApprovalPagePlugin::WatcherPatch]
-
+    [Watcher, ApprovalPagePlugin::WatcherPatch],
+    [IssuesHelper, ApprovalPagePlugin::IssuesHelperPatch]
   ].each do |cl, patch|
     cl.send(:include, patch) unless cl.included_modules.include? patch
   end

@@ -29,10 +29,11 @@ class ApprovalItemsController < ApplicationController
     end
 
     Mailer.with_deliveries(false) do
-      journal = @issue.init_journal(User.current, ::I18n.t(:message_add_approver, :names => approvers.join(", ").html_safe))
+      journal = @issue.init_journal(User.current, '')
       journal.approver_ids = approver_ids.uniq
       journal.approvals_action = :add
-      journal.save
+      journal.save!
+      journal.details.create(property: "watchers", prop_key: "approvers", old_value: nil, value: approver_ids.join(','))
     end
     
     # Автору и исполнителю согласуемой задачи вотчи о удалении
