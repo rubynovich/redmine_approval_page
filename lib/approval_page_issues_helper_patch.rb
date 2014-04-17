@@ -14,8 +14,10 @@ module ApprovalPagePlugin
           users = User.where(id: detail.value.split(','))
           return (users.count > 1 ? l(:message_add_approvers, names: users.map(&:name).join(', ')) : l(:message_add_approver, name: users.first.name) ).html_safe
         elsif detail.prop_key == 'approved' && detail.old_value.nil? && detail.value.present?
-          user = User.where(id: detail.old_value).first
+          #user = User.where(id: detail.old_value).first
           return l(:message_approver_approved)[true].html_safe
+        elsif detail.prop_key == 'approved' && detail.old_value.present? && detail.value.nil?
+          return l(:message_approver_approved)[false].html_safe
         else
           show_detail_without_approval_page(detail, no_html, options)
         end
