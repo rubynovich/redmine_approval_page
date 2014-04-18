@@ -19,8 +19,8 @@ ru:
   message_add_approvers: "В согласующие добавлены: %{names}"
   message_add_approver: "В согласующие добавлен(а) %{name}"
   message_add_approver_gender:
-    "g0": "В согласующие добавлена %{name}"
-    "g1": "В согласующие добавлен %{name}"
+    "g1": "В согласующие добавлена %{name}"
+    "g0": "В согласующие добавлен %{name}"
     "g": "В согласующие добавлен(а) %{name}"
   message_issue_approved: "Задача согласована!"
   message_approver_approved:
