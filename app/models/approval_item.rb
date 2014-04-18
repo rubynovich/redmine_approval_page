@@ -72,7 +72,6 @@ class ApprovalItem < ActiveRecord::Base
 
       Mailer.with_deliveries(false) do
         journal = issue.init_journal(User.current, '')
-
         old_approvals = self.approval_issue.approval_items.where(approved: true).map(&:user_id).uniq.sort
         new_approvals = (approved? ? (old_approvals + [self.approver.id]) : (old_approvals - [self.approver.id])).uniq.sort
         journal.details.build(property: "watchers", prop_key: "approved", old_value: old_approvals.join(','), value: new_approvals.join(',')) if old_approvals != new_approvals

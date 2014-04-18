@@ -34,7 +34,7 @@ class ApprovalItemsController < ApplicationController
       journal = @issue.init_journal(User.current, '')
       journal.approver_ids = approver_ids.uniq
       journal.approvals_action = :add
-      new_approver_ids = (@issue.approvers.map(&:id)).uniq.sort
+      new_approver_ids = (old_approver_ids + User.where(id: approver_ids).map(&:id)).uniq.sort
       journal.details.build(property: "watchers", prop_key: "approver", old_value: old_approver_ids.join(','), value: new_approver_ids.join(',') ) if new_approver_ids != old_approver_ids
       journal.save!
     end
