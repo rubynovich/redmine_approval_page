@@ -33,7 +33,7 @@ class ApprovalItemsController < ApplicationController
       journal.approver_ids = approver_ids.uniq
       journal.approvals_action = :add
       journal.save!
-      journal.details.create(property: "watchers", prop_key: "approvers", old_value: nil, value: approver_ids.join(','))
+      journal.details.create(property: "watchers", prop_key: "approvers", old_value: @issue.approvers.map(&:id).uniq.join(','), value: ((@issue.approvers.map(&:id) + User.active.where(id: approver_ids).map(&:id)).uniq).join(',') )
     end
     
     # Автору и исполнителю согласуемой задачи вотчи о удалении

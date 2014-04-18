@@ -38,7 +38,8 @@ class ApprovalItem < ActiveRecord::Base
           journal.approver_ids = [self.approver.id].uniq
           journal.approvals_action = :destroy
           journal.save!
-          journal.details.create(property: "watchers", prop_key: "approver", old_value: self.approver.id, value: nil)
+          old_approvals = self.approval_issue.approval_items.map(&:user_id)
+          journal.details.create(property: "watchers", prop_key: "approver", old_value: old_approvals.join(','), value: (old_approvals - [self.approver.id]).join(','))
         end
 
         # Согласующий удалил сам себя? Указано ли у него в настройках,
@@ -69,7 +70,8 @@ class ApprovalItem < ActiveRecord::Base
       Mailer.with_deliveries(false) do
         journal = issue.init_journal(User.current, '')
         journal.save!
-        journal.details.create(property: "watchers", prop_key: "approved", old_value: approved? ? nil : self.approver.id, value: approved? ? self.approver.id : nil)
+        old_approvals = self.approval_issue.approval_items.where(approved: true).map(&:user_id)
+        journal.details.create(property: "watchers", prop_key: "approved", old_value: old_approvals.join(','), value: approved? ? (old_approvals + [self.approver.id]).join(',') : (old_approvals - [self.approver.id]).join(','))
       end
 
       # Вотчи о согласовании задачи приходят автору, исполнителю и наблюдателям.
