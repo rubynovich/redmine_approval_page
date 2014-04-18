@@ -37,9 +37,12 @@ class ApprovalItem < ActiveRecord::Base
           journal = issue.init_journal(User.current, '')
           journal.approver_ids = [self.approver.id].uniq
           journal.approvals_action = :destroy
+
+          old_approvals = self.approval_issue.approval_items.map(&:user_id).uniq.sort
+          new_approvals = (old_approvals - [self.approver.id]).uniq.sort
+
+          journal.details.build(property: "watchers", prop_key: "approver", old_value: old_approvals.join(','), value: new_approvals.join(',')) if old_approvals != new_approvals
           journal.save!
-          old_approvals = self.approval_issue.approval_items.map(&:user_id)
-          journal.details.create(property: "watchers", prop_key: "approver", old_value: old_approvals.join(','), value: (old_approvals - [self.approver.id]).join(','))
         end
 
         # Согласующий удалил сам себя? Указано ли у него в настройках,
@@ -69,9 +72,11 @@ class ApprovalItem < ActiveRecord::Base
 
       Mailer.with_deliveries(false) do
         journal = issue.init_journal(User.current, '')
+
+        old_approvals = self.approval_issue.approval_items.where(approved: true).map(&:user_id).uniq.sort
+        new_approvals = (approved? ? (old_approvals + [self.approver.id]) : (old_approvals - [self.approver.id])).uniq.sort
+        journal.details.build(property: "watchers", prop_key: "approved", old_value: old_approvals.join(','), value: new_approvals.join(',')) if old_approvals != new_approvals
         journal.save!
-        old_approvals = self.approval_issue.approval_items.where(approved: true).map(&:user_id)
-        journal.details.create(property: "watchers", prop_key: "approved", old_value: old_approvals.join(','), value: approved? ? (old_approvals + [self.approver.id]).join(',') : (old_approvals - [self.approver.id]).join(','))
       end
 
       # Вотчи о согласовании задачи приходят автору, исполнителю и наблюдателям.

@@ -18,7 +18,7 @@ class ApprovalItemsController < ApplicationController
     approvers = []
     approver_ids = []
 
-    old_approver_ids = @issue.approvers.map(&:id).uniq
+    old_approver_ids = @issue.approvers.map(&:id).uniq.sort
 
     flash.now[:notice] = l(:notice_successful_create) if params[:approver] && User.find(params[:approver][:user_ids]).all? do |user|
       if approval_item = ApprovalItem.create(:approver => user, :approval_issue => @issue)
@@ -34,8 +34,9 @@ class ApprovalItemsController < ApplicationController
       journal = @issue.init_journal(User.current, '')
       journal.approver_ids = approver_ids.uniq
       journal.approvals_action = :add
+      new_approver_ids = (@issue.approvers.map(&:id)).uniq.sort
+      journal.details.build(property: "watchers", prop_key: "approver", old_value: old_approver_ids.join(','), value: new_approver_ids.join(',') ) if new_approver_ids != old_approver_ids
       journal.save!
-      journal.details.create(property: "watchers", prop_key: "approver", old_value: old_approver_ids.join(','), value: (@issue.approvers.map(&:id)).uniq.join(',') )
     end
     
     # Автору и исполнителю согласуемой задачи вотчи о удалении
