@@ -11,9 +11,9 @@ ru:
   field_approved_on: "Дата согласования"
   permission_view_approval_items: "Просмотр листа согласования"
   permission_manage_approval_items: "Управление листом согласования"
-  message_remove_approver: "Из согласующих удален %{name}"
+  message_remove_approver: "Из согласующих удален(а) %{name}"
   message_add_approvers: "В согласующие добавлены: %{names}"
-  message_add_approver: "В согласующие добавлен %{name}"
+  message_add_approver: "В согласующие добавлен(а) %{name}"
   message_issue_approved: "Задача согласована!"
   message_approver_approved:
     true: "Cогласовано!"
