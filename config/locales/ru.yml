@@ -12,8 +12,16 @@ ru:
   permission_view_approval_items: "Просмотр листа согласования"
   permission_manage_approval_items: "Управление листом согласования"
   message_remove_approver: "Из согласующих удален(а) %{name}"
+  message_remove_approver_gender:
+    "0": "Из согласующих удалена %{name}"
+    "1": "Из согласующих удален %{name}"
+    "": "Из согласующих удален(а) %{name}"
   message_add_approvers: "В согласующие добавлены: %{names}"
   message_add_approver: "В согласующие добавлен(а) %{name}"
+  message_add_approver_gender:
+    "0": "В согласующие добавлена %{name}"
+    "1": "В согласующие добавлен %{name}"
+    "": "В согласующие добавлен(а) %{name}"
   message_issue_approved: "Задача согласована!"
   message_approver_approved:
     true: "Cогласовано!"
