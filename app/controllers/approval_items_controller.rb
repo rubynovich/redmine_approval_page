@@ -18,6 +18,8 @@ class ApprovalItemsController < ApplicationController
     approvers = []
     approver_ids = []
 
+    old_approver_ids = @issue.approvers.map(&:id).uniq
+
     flash.now[:notice] = l(:notice_successful_create) if params[:approver] && User.find(params[:approver][:user_ids]).all? do |user|
       if approval_item = ApprovalItem.create(:approver => user, :approval_issue => @issue)
         unless approval_item.approver == User.current && User.current.pref.no_self_notified
@@ -33,7 +35,7 @@ class ApprovalItemsController < ApplicationController
       journal.approver_ids = approver_ids.uniq
       journal.approvals_action = :add
       journal.save!
-      journal.details.create(property: "watchers", prop_key: "approvers", old_value: @issue.approvers.map(&:id).uniq.join(','), value: ((@issue.approvers.map(&:id) + User.active.where(id: approver_ids).map(&:id)).uniq).join(',') )
+      journal.details.create(property: "watchers", prop_key: "approver", old_value: old_approver_ids.join(','), value: (@issue.approvers.map(&:id)).uniq.join(',') )
     end
     
     # Автору и исполнителю согласуемой задачи вотчи о удалении
