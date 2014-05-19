@@ -58,7 +58,7 @@ ru:
     "false": "Отозвано согласование от - %{approver} - в задаче %{issue}"
 
   body_approver_approved: 
-    "true": "%{approver} согласовал задачу."
-    "false": "%{approver} отозвал согласование задачи."
+    "true": "%{approver} согласовал(а) задачу."
+    "false": "%{approver} отозвал(а) согласование задачи."
 
   
