@@ -51,5 +51,10 @@ en:
   subject_approver_removed: "Approver removed %{approver} - %{issue}"
   body_approver_removed: " %{approver} were removed from %{issue} approval list."
 
-  subject_approver_approved: "Issue approved by - %{approver} -  %{issue}"
-  body_approver_approved: "User %{approver} approved %{issue}."
+  subject_approver_approved: 
+    "true": "Issue approved by - %{approver} - %{issue}"
+    "false": "Issue approval recalled - %{approver} - %{issue}"
+
+  body_approver_approved: 
+    "true": "User %{approver} approved issue."
+    "false": "User %{approver} recalled approval."
