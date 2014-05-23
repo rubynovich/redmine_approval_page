@@ -8,6 +8,9 @@ class ApprovalItemsController < ApplicationController
   helper :issues
   helper :watchers
 
+
+  accept_api_auth :create, :destroy
+
   def new
     @show_form = "true"
     @users = User.active.sorted.all(limit: 100)
@@ -53,6 +56,7 @@ class ApprovalItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
+      format.json { render_api_ok }
     end
   end
 
@@ -82,6 +86,7 @@ class ApprovalItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
+      format.json { render_api_ok }
     end
   end
 
