@@ -107,7 +107,7 @@ class ApprovalItemsController < ApplicationController
       if params[:id].present?
         item = ApprovalItem.find(params[:id])
       else
-        item = @issue.approvers.where(:user_id => params[:user_id]).first
+        item = @issue.approval_items.where(:user_id => params[:user_id]).first
       end
       item
     end
