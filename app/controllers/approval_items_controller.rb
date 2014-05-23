@@ -61,10 +61,9 @@ class ApprovalItemsController < ApplicationController
   end
 
   def update
-    item = ApprovalItem.find(params[:id])
-    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(params[:approval_item])
-
     find_issue
+    item = approval_item
+    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(params[:approval_item])
     @users = @issue.approvers
     @journals = get_journals
 
@@ -76,13 +75,8 @@ class ApprovalItemsController < ApplicationController
 
   def destroy
     find_issue
-    if params[:id].present?
-      item = ApprovalItem.find(params[:id])
-    else
-      item = @issue.approvers.where(:user_id => params[:user_id]).first
-    end
 
-    flash.now[:notice] = l(:notice_successful_delete) if item.destroy
+    flash.now[:notice] = l(:notice_successful_delete) if approval_item.try(:destroy)
 
 
     @users = @issue.approvers
@@ -107,6 +101,16 @@ class ApprovalItemsController < ApplicationController
   end
 
   private
+
+    def approval_item
+      if params[:id].present?
+        item = ApprovalItem.find(params[:id])
+      else
+        item = @issue.approvers.where(:user_id => params[:user_id]).first
+      end
+      item
+    end
+
     def find_issue
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project
