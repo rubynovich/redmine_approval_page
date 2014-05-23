@@ -61,9 +61,10 @@ class ApprovalItemsController < ApplicationController
   end
 
   def update
+    approval_item_params = params[:approval_item] || params[:approver]
     find_issue
     item = approval_item
-    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(params[:approval_item])
+    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(approval_item_params)
     @users = @issue.approvers
     @journals = get_journals
 
