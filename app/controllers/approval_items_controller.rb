@@ -9,7 +9,7 @@ class ApprovalItemsController < ApplicationController
   helper :watchers
 
 
-  accept_api_auth :create, :destroy
+  accept_api_auth :create, :destroy, :update
 
   def new
     @show_form = "true"
