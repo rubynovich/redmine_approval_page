@@ -6,6 +6,8 @@ if Rails::VERSION::MAJOR >= 3
         get :card
       end
     end
+    post '/issues/:issue_id/approvers' => 'approval_items#create'
+    delete '/issues/:issue_id/approvers/:user_id' => 'approval_items#destroy'
   end
 else
   ActionController::Routing::Routes.draw do |map|

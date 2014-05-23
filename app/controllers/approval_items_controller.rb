@@ -75,11 +75,16 @@ class ApprovalItemsController < ApplicationController
   end
 
   def destroy
-    item = ApprovalItem.find(params[:id])
+    find_issue
+    if params[:id].present?
+      item = ApprovalItem.find(params[:id])
+    else
+      item = @issue.approvers.where(:user_id => params[:user_id]).first
+    end
 
     flash.now[:notice] = l(:notice_successful_delete) if item.destroy
 
-    find_issue
+
     @users = @issue.approvers
     @journals = get_journals
 
