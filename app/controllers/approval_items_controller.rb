@@ -56,7 +56,7 @@ class ApprovalItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
-      format.json { render_api_ok }
+      format.api { render_api_ok }
     end
   end
 
@@ -70,6 +70,7 @@ class ApprovalItemsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to :back }
+      format.api {render_api_ok}
       format.js
     end
   end
@@ -86,7 +87,7 @@ class ApprovalItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
-      format.json { render_api_ok }
+      format.api { render_api_ok }
     end
   end
 
