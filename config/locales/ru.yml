@@ -55,3 +55,6 @@ ru:
 
   subject_approver_approved: "Получено согласование от - %{approver} - в задаче %{issue}"
   body_approver_approved: "%{approver} согласовал задачу."
+
+  subject_approved_all: "Задача %{issue} согласована всеми участниками!"
+  body_approved_all: "Получено подтверждение от всех согласующих."

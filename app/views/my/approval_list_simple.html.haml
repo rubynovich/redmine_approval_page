@@ -1,0 +1,39 @@
+- if issues && issues.any? 
+  %table{:class => "list issues"}
+    %thead
+      %tr
+        %th
+          = "#"
+        %th
+          = l(:field_project)
+        %th
+          = l(:label_theme)
+        %th
+          = l(:field_status)
+        %th
+          = l(:field_assigned_to)
+        %th
+          = l(:field_start_date)
+        %th
+          = l(:field_due_date)
+    %tbody
+      - for issue in issues
+        %tr{:id => "issue-#{h(issue.id)}", :class => "hascontextmenu #{cycle('odd', 'even')} #{issue.css_classes}"}
+          %td{:class => "id"}
+            = check_box_tag("ids[]", issue.id, false, :style => 'display:none;', :id => nil) 
+            = link_to issue.id, issue_path(issue) 
+          %td{:class => "project"}
+            = link_to_project(issue.project)
+          %td{:class => "subject"}
+            = link_to truncate(issue.subject, :length => 60), issue_path(issue)               
+          %td{:class => "status"}
+            = h issue.status
+          %td
+            = link_to_user(issue.assigned_to)
+          %td
+            = format_date(issue.start_date)
+          %td
+            = format_date(issue.due_date)
+- else
+  %p{:class => "nodata"}
+    = l(:label_no_data)

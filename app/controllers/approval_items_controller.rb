@@ -61,6 +61,17 @@ class ApprovalItemsController < ApplicationController
     flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(params[:approval_item])
 
     find_issue
+
+    if !@issue.approval_items.where(approved: [false, nil]).any? 
+      # Вотчи об утверждении задачи приходят автору, исполнителю, утверждающему и наблюдателям.
+      recipients = [@issue.author, @issue.assigned_to] | @issue.watchers.map(&:user)
+      if recipients.include?(User.current) && User.current.pref.no_self_notified
+        recipients = recipients - [User.current]
+      end
+      for recipient in recipients.uniq
+        Mailer.approved_all(recipient, @issue).deliver
+      end
+    end
     @users = @issue.approvers
     @journals = get_journals
 

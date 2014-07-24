@@ -53,3 +53,6 @@ en:
 
   subject_approver_approved: "Issue approved by - %{approver} -  %{issue}"
   body_approver_approved: "User %{approver} approved %{issue}."
+
+  subject_approved_all: "Issue %{issue} approved by all participants!"
+  body_approved_all: "Received confirmation from all approvers."
