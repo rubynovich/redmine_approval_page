@@ -53,8 +53,13 @@ ru:
   subject_approver_removed: "Удален согласующий %{approver} - %{issue}"
   body_approver_removed: "Из листа согласования был удален пользователь %{approver}."
 
-  subject_approver_approved: "Получено согласование от - %{approver} - в задаче %{issue}"
-  body_approver_approved: "%{approver} согласовал задачу."
-
   subject_approved_all: "Задача %{issue} согласована всеми участниками!"
   body_approved_all: "Получено подтверждение от всех согласующих."
+  subject_approver_approved: 
+    "true": "Получено согласование от - %{approver} - в задаче %{issue}"
+    "false": "Отозвано согласование от - %{approver} - в задаче %{issue}"
+
+  body_approver_approved: 
+    "true": "%{approver} согласовал(а) задачу."
+    "false": "%{approver} отозвал(а) согласование задачи."
+

@@ -8,6 +8,9 @@ class ApprovalItemsController < ApplicationController
   helper :issues
   helper :watchers
 
+
+  accept_api_auth :create, :destroy, :update
+
   def new
     @show_form = "true"
     @users = User.active.sorted.all(limit: 100)
@@ -53,13 +56,12 @@ class ApprovalItemsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
+      format.api { render_api_ok }
     end
   end
 
   def update
-    item = ApprovalItem.find(params[:id])
-    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(params[:approval_item])
-
+    approval_item_params = params[:approval_item] || params[:approver]
     find_issue
 
     if !@issue.approval_items.where(approved: [false, nil]).any? 
@@ -72,27 +74,32 @@ class ApprovalItemsController < ApplicationController
         Mailer.approved_all(recipient, @issue).deliver
       end
     end
+    
+    item = approval_item
+    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(approval_item_params)
     @users = @issue.approvers
     @journals = get_journals
 
     respond_to do |format|
       format.html { redirect_to :back }
+      format.api {render_api_ok}
       format.js
     end
   end
 
   def destroy
-    item = ApprovalItem.find(params[:id])
-
-    flash.now[:notice] = l(:notice_successful_delete) if item.destroy
-
     find_issue
+
+    flash.now[:notice] = l(:notice_successful_delete) if approval_item.try(:destroy)
+
+
     @users = @issue.approvers
     @journals = get_journals
 
     respond_to do |format|
       format.html { redirect_to :back }
       format.js
+      format.api { render_api_ok }
     end
   end
 
@@ -108,6 +115,16 @@ class ApprovalItemsController < ApplicationController
   end
 
   private
+
+    def approval_item
+      if params[:id].present?
+        item = ApprovalItem.find(params[:id])
+      else
+        item = @issue.approval_items.where(:user_id => params[:user_id]).first
+      end
+      item
+    end
+
     def find_issue
       @issue = Issue.find(params[:issue_id])
       @project = @issue.project

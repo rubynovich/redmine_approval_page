@@ -3,6 +3,11 @@
     text-decoration: line-through;
     color: #999;
   }
+- unless approval_item.approved?
+  :css
+    ul.watchers li[class=user-#{approval_item.user_id}] a.delete{
+      display:none;
+    }
 
 :javascript
   function approve_item(elem,url,id){
