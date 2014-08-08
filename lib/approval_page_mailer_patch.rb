@@ -62,7 +62,7 @@ module ApprovalPagePlugin
         @issue = issue
         @issue_title = "##{@issue.id} \"#{@issue.subject}\""
         mail :to => user.mail, 
-             :subject => l(:subject_approved_all)
+             :subject => l(:subject_approved_all, issue: "##{@issue.id}")
       end
 
       def approver_approved(approved, user, issue, approver)
