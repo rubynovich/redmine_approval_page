@@ -64,6 +64,11 @@ class ApprovalItemsController < ApplicationController
     approval_item_params = params[:approval_item] || params[:approver]
     find_issue
 
+    item = approval_item
+    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(approval_item_params)
+    @users = @issue.approvers
+    @journals = get_journals
+
     if !@issue.approval_items.where(approved: [false, nil]).any? 
       # Вотчи об утверждении задачи приходят автору, исполнителю, утверждающему и наблюдателям.
       recipients = [@issue.author, @issue.assigned_to] | @issue.watchers.map(&:user)
@@ -73,12 +78,7 @@ class ApprovalItemsController < ApplicationController
       for recipient in recipients.uniq
         Mailer.approved_all(recipient, @issue).deliver
       end
-    end
-    
-    item = approval_item
-    flash.now[:notice] = l(:notice_successful_update) if !item.approval_issue.closed? && item.update_attributes(approval_item_params)
-    @users = @issue.approvers
-    @journals = get_journals
+    end    
 
     respond_to do |format|
       format.html { redirect_to :back }

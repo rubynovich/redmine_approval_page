@@ -54,7 +54,7 @@ ru:
   body_approver_removed: "Из листа согласования был удален пользователь %{approver}."
 
   subject_approved_all: "Задача %{issue} согласована всеми участниками!"
-  body_approved_all: "Получено подтверждение от всех согласующих."
+  body_approved_all: "Получено согласование всех участников."
   subject_approver_approved: 
     "true": "Получено согласование от - %{approver} - в задаче %{issue}"
     "false": "Отозвано согласование от - %{approver} - в задаче %{issue}"
