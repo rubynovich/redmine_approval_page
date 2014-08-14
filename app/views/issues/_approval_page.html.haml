@@ -9,8 +9,9 @@
       #approval_page img.gravatar {vertical-align: middle; margin: 0 4px 2px 0;}
 
     .contextual
-      - if !@issue.closed? && (User.current.allowed_to?(:manage_approval_items, @project))
-        = link_to l(:button_add), {:controller => :approval_items, :action => :new, :issue_id => @issue.id}, :remote => true, :method => :get
+      - if !Redmine::Plugin.find(:redmine_issue_enhancements) || (@issue.issue_familiarizations.count == 0) && (@issue.issue_asserter.nil? || (@issue.issue_asserter.asserted != true))
+        - if !@issue.closed? && (User.current.allowed_to?(:manage_approval_items, @project))
+          = link_to l(:button_add), {:controller => :approval_items, :action => :new, :issue_id => @issue.id}, :remote => true, :method => :get
 
     %h3
       = l(:label_approver_plural)
