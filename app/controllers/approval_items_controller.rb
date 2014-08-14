@@ -79,7 +79,7 @@ class ApprovalItemsController < ApplicationController
         Mailer.approved_all(recipient, @issue).deliver
       end
       Mailer.with_deliveries(false) do
-        @issue.watchers.where(user_id: @issue.watchers.map(&:user_id)).delete_all
+        @issue.watchers.where(user_id: @issue.approvers.map(&:id)).delete_all
       end
 
     end    
