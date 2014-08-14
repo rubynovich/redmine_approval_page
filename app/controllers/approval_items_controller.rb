@@ -78,6 +78,10 @@ class ApprovalItemsController < ApplicationController
       for recipient in recipients.uniq
         Mailer.approved_all(recipient, @issue).deliver
       end
+      Mailer.with_deliveries(false) do
+        @issue.watchers.where(user_id: @issue.watchers.map(&:user_id)).delete_all
+      end
+
     end    
 
     respond_to do |format|
