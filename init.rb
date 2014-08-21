@@ -23,7 +23,7 @@ Redmine::Plugin.register :redmine_approval_page do
   settings :default => {
                          :issue_status => IssueStatus.first(:conditions => {:is_closed => true}).id
                        },
-           :partial => 'settings/settings'
+           :partial => 'redmine_approval_page/settings'
 end
 
 Rails.configuration.to_prepare do
