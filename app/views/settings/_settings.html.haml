@@ -1,3 +1,6 @@
 %p
   = content_tag(:label, l(:label_finish_issue_status))
   = select_tag("settings[issue_status]", options_from_collection_for_select(IssueStatus.all, :id, :name, @settings[:issue_status] && @settings[:issue_status].to_i || IssueStatus.default))
+%p
+  = content_tag(:label, l(:label_not_approved_for_my_page_issues_statuses))
+  = select_tag("settings[issue_not_approved_statuses]", options_from_collection_for_select(IssueStatus.all, :id, :name, @settings[:issue_not_approved_statuses]  || nil), :multiple => true)

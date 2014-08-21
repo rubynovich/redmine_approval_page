@@ -1,6 +1,7 @@
 # Russian strings go here for Rails i18n
 ru:
   error_you_cant_close_issue_without_approval: "Нельзя закрыть или отменить задачу без окончательного согласования"
+  label_not_approved_for_my_page_issues_statuses: "Статусы задач выводимые на моей странице"
   project_module_approval_page: "Лист согласования"
   label_approval_page: "Лист согласования"
   label_approver_plural: "Согласующие"
