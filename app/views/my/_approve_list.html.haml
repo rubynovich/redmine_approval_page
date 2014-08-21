@@ -1,4 +1,4 @@
-- approval_issues = ApprovalItem.where(user_id: User.current.id, approved: nil).map{|i| i.approval_issue}#map(&:approval_issue).compact
+- approval_issues = ApprovalItem.where(user_id: User.current.id, approved: [nil, false]).map{|i| i.approval_issue}#map(&:approval_issue).compact
 
 %h3
   = "Задачи на согласование"
