@@ -1,5 +1,5 @@
 - allowed_status_ids = IssueStatus.where(id: Setting[:plugin_redmine_approval_page][:issue_not_approved_statuses]).map(&:id)
-- approval_issues = ApprovalItem.where(user_id: User.current.id, approved: [nil, false]).where(["approval_issues"]).map{|i| i.approval_issue if allowed_status_ids.include?(i.approval_issue.status_id)}.compact#map(&:approval_issue).compact
+- approval_issues = ApprovalItem.where(user_id: User.current.id, approved: [nil, false]).map{|i| i.approval_issue if allowed_status_ids.include?(i.approval_issue.status_id)}.compact#map(&:approval_issue).compact
 
 %h3
   = "Задачи на согласование"
