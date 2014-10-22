@@ -88,9 +88,7 @@ class ApprovalItem < ActiveRecord::Base
         Mailer.approver_approved(self.approved?, recipient, issue, self.approver.name).deliver
       end
 
-
     end
-
 
     def set_finish_status
       if !self.approval_issue.closed? && self.approval_issue.approval_items.present? && self.approval_issue.approval_items.all?(&:approved)

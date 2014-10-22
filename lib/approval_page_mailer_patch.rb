@@ -83,6 +83,8 @@ module ApprovalPagePlugin
         @approvers = approvers
         mail :to => user.mail, 
              :subject => l(:subject_approver_added, issue: @issue_title) + ': ' + approvers.join(', ')
+      rescue
+        Rails.logger.error("asdfafda".red)
       end
 
       def approver_removed(user, issue, approver)
